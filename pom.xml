@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.veryevilzed.tools</groupId>
-    <artifactId>jackson-datatype-protobuf3</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <artifactId>datatype-protobuf3</artifactId>
+    <version>0.2-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
