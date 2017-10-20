@@ -3,13 +3,8 @@ package ru.veryevilzed.tools.proto;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.DynamicMessage;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,23 +24,6 @@ public class MapToProto {
 
     private static DynamicMessage.Builder getBuilder(Descriptors.Descriptor descriptor) {
         return DynamicMessage.newBuilder(descriptor);
-    }
-
-    private static <T extends AbstractMessage> Descriptors.Descriptor getDescriptor(Class<T> clazz) {
-        try {
-            Method method = clazz.getMethod("getDescriptor");
-            return (Descriptors.Descriptor)method.invoke(null);
-        }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
-            System.out.printf("Error:%s", ignored);
-            return null;
-        }
-    }
-
-    private Map<String, Object> getKeyValue(Object key, Object value) {
-        Map<String,Object> res = new HashMap<>();
-        res.put("key", key);
-        res.put("value", value);
-        return res;
     }
 
     @SuppressWarnings("unchecked")
@@ -104,7 +82,7 @@ public class MapToProto {
                     try {
                         if (fieldDescriptor.isMapField()) { // map
                             builder.clearField(fieldDescriptor);
-                            ((Map<Object, Object>) entry.getValue()).entrySet().forEach(mapEntry -> builder.addRepeatedField(fieldDescriptor, toProtobufMessage(fieldDescriptor.getMessageType(), getKeyValue(mapEntry.getKey(), mapEntry.getValue()))));
+                            ((Map<Object, Object>) entry.getValue()).entrySet().forEach(mapEntry -> builder.addRepeatedField(fieldDescriptor, toProtobufMessage(fieldDescriptor.getMessageType(), Utils.getKeyValue(mapEntry.getKey(), mapEntry.getValue()))));
                         } else if (fieldDescriptor.isRepeated()) { // repeated
                             builder.clearField(fieldDescriptor);
                             if (entry.getValue().getClass().isArray())
@@ -126,7 +104,7 @@ public class MapToProto {
     }
 
     public <T extends AbstractMessage> DynamicMessage parse(Map<String, Object> data, Class<T> clazz) {
-        return toProtobufMessage(getDescriptor(clazz), data);
+        return toProtobufMessage(Utils.getDescriptor(clazz), data);
     }
 
     public <T extends AbstractMessage> MapToProto(Options... options) {
