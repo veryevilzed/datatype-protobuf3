@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package ru.veryevilzed.tinylima;
+
+option java_package = "ru.veryevilzed.tools.test";
+option java_outer_classname = "TestProtoMessages";
+
+message BaseMessage {
+
+
+    int32 common = 1;
+    int64 common64 = 2;
+
+    uint32 commonU = 3;
+    uint64 commonU64 = 4;
+
+    string commonString = 5;
+    double commonDouble = 6;
+
+    bool commonBool = 7;
+
+    SimpleEnum commonEnum = 8;
+
+    BaseMessage inmessage = 10;
+
+    bytes commonBytes = 20;
+    repeated int32 array = 21;
+    repeated int64 array64 = 22;
+    repeated int64 arrayU = 23;
+    repeated uint64 arrayU64 = 24;
+
+    repeated string arrayString = 25;
+    repeated double arrayDouble = 26;
+    repeated bool arrayBool = 27;
+    repeated SimpleEnum arrayEnum = 28;
+    repeated BaseMessage arrayMessage = 29;
+
+    map<int32, int32> map32 = 30;
+    map<int64, int64> map64 = 31;
+    map<string, string> mapString = 32;
+    map<string, bytes> mapBytes = 33;
+    map<string, BaseMessage> mapMessage = 34;
+}
+
+
+enum SimpleEnum {
+    FIRST = 0;
+    SECOND = 1;
+}
+
