@@ -3,10 +3,7 @@ package ru.veryevilzed.tools.proto;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Descriptors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProtoToMap {
@@ -54,6 +51,8 @@ public class ProtoToMap {
 
 
     private Object fromProtoValue(Descriptors.FieldDescriptor df, Object value){
+        if (value == null )
+            value = df.getDefaultValue();
         if (value == null)
             return null;
         switch (df.getJavaType().name()){
@@ -64,6 +63,8 @@ public class ProtoToMap {
             case "BOOLEAN":
                 return value;
             case "ENUM":
+                if (value == null)
+                    value = df.getDefaultValue();
                 if (!enumAsObject)
                     return value.toString();
                 return  df.getEnumType().findValueByName(value.toString());
@@ -81,8 +82,9 @@ public class ProtoToMap {
         Map<String, Object> res = new HashMap<>();
         for(Descriptors.FieldDescriptor df : descriptor.getFields()){
             Object value = proto.getAllFields().get(df);
-            if (value == null && !notSkipNull)
+            if (value == null && !notSkipNull && !df.getJavaType().name().equals("ENUM")) {
                 continue;
+            }
             if (df.isMapField()) {
                 if (value != null) {
                     Map map = new HashMap();

@@ -59,3 +59,38 @@ enum SimpleEnum {
     SECOND = 1;
 }
 
+
+
+
+message DeviceConfiguration {
+    DeviceBase base = 1;
+    DeviceDisplay display = 2;
+}
+
+message DeviceBase {
+    enum DeviceTypes {
+        DT_NORMAL = 0;
+    }
+    DeviceTypes deviceType = 1;
+}
+
+
+
+message DeviceDisplay {
+
+    enum DeviceDisplayTypes {
+        DDT_SIMPLE = 0;
+    }
+
+    enum DeviceI18Ns {
+        DI18N_SIMPLE = 0;
+        DI18N_USA = 1;
+    }
+
+    DeviceDisplayTypes displayBet = 1;
+    DeviceDisplayTypes displayWin = 2;
+    DeviceDisplayTypes displayGameBalance = 3;
+    DeviceDisplayTypes displayOutBalance = 4;
+    DeviceI18Ns i18n = 10;
+    string language = 11;
+}

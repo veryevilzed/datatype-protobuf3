@@ -42,13 +42,31 @@ public class ProtoToMapTest {
                 .setOtherMessage(TestProtoMessages.OtherMessage.newBuilder()
                         .setEnumItem(TestProtoMessages.OtherMessage.OtherEnum.ITEM)
                         .build())
-                .setCommonEnum(TestProtoMessages.SimpleEnum.SECOND)
+                .setCommonEnum(TestProtoMessages.SimpleEnum.FIRST)
                 .build();
 
         ProtoToMap mapper = new ProtoToMap();
         Map<String, Object> map = mapper.parse(message);
-        Assert.assertEquals(map.get("commonEnum"), "SECOND");
+        Assert.assertEquals(map.get("commonEnum"), "FIRST");
         Assert.assertEquals(((Map<String,Object>)map.get("inmessage")).get("commonEnum"), "SECOND");
         Assert.assertEquals(((Map<String,Object>)map.get("otherMessage")).get("enumItem"), "ITEM");
     }
+
+
+    @Test
+    public void deviceTest() {
+        TestProtoMessages.DeviceConfiguration cfg = TestProtoMessages.DeviceConfiguration.newBuilder()
+                .setBase(
+                        TestProtoMessages.DeviceBase.newBuilder()
+                                .setDeviceType(TestProtoMessages.DeviceBase.DeviceTypes.DT_NORMAL)
+                                .build()
+                )
+                .build();
+
+        ProtoToMap mapper = new ProtoToMap();
+        Map<String, Object> map = mapper.parse(cfg);
+        Assert.assertEquals(((Map<String,Object>)map.get("base")).get("deviceType"), cfg.getBase().getDeviceType().toString());
+
+    }
+
 }
