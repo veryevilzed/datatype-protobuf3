@@ -25,5 +25,4 @@ public class ProtoToMapTest {
         System.out.printf("%s%n", map.toString() );
         Assert.assertArrayEquals((Integer[])map.get("array"), new Integer[] {5,7,20, 5});
     }
-
 }
