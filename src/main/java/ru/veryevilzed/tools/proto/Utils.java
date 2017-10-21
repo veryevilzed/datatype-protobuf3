@@ -16,7 +16,6 @@ public final class Utils {
             Method method = clazz.getMethod("getDescriptor");
             return (Descriptors.Descriptor)method.invoke(null);
         }catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
-            System.out.printf("Error:%s", ignored);
             return null;
         }
     }

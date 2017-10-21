@@ -25,6 +25,15 @@ Options:
 ```java
 
 ProtoToMap maper = new ProtoToMap();
-
+Map<String, Object> map = mapper(protoMessage);
 
 ```
+
+Options:
+
+* NOT_SKIP_NULL,
+* LIST_AS_ARRAY,
+* ENUM_AS_STRING,
+* IGNORE_NOT_IMPLEMENTED_TYPE,
+* CREATE_EMPTY_ARRAY,
+* CREATE_EMPTY_MAP,
