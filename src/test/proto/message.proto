@@ -40,8 +40,19 @@ message BaseMessage {
     map<string, string> mapString = 32;
     map<string, bytes> mapBytes = 33;
     map<string, BaseMessage> mapMessage = 34;
+
+    OtherMessage otherMessage = 100;
 }
 
+message OtherMessage {
+    enum OtherEnum {
+        DEFAULT = 0;
+        ITEM = 1;
+    }
+
+    repeated OtherEnum enumArray = 1;
+    OtherEnum enumItem = 2;
+}
 
 enum SimpleEnum {
     FIRST = 0;

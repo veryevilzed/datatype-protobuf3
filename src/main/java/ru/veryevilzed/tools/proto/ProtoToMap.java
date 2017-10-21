@@ -14,7 +14,7 @@ public class ProtoToMap {
     public enum Options {
         NOT_SKIP_NULL,
         LIST_AS_ARRAY,
-        ENUM_AS_STRING,
+        ENUM_AS_OBJECT,
         IGNORE_NOT_IMPLEMENTED_TYPE,
         CREATE_EMPTY_ARRAY,
         CREATE_EMPTY_MAP,
@@ -22,7 +22,7 @@ public class ProtoToMap {
 
     private boolean notSkipNull = false;
     private boolean listAsArray = false;
-    private boolean enumAsString = false;
+    private boolean enumAsObject = false;
     private boolean createEmptyArray = false;
     private boolean createEmptyMap = false;
     private boolean ignoreNotImplementedType = false;
@@ -40,9 +40,9 @@ public class ProtoToMap {
             case "BOOLEAN":
                 return object.toArray(new Boolean[0]);
             case "ENUM":
-                if (enumAsString)
+                if (!enumAsObject)
                     return object.toArray(new String[0]);
-                return object.toArray(new Object[0]);
+                return object;
             case "MESSAGE":
                 return object.toArray(new Object[0]);
             default:
@@ -64,9 +64,9 @@ public class ProtoToMap {
             case "BOOLEAN":
                 return value;
             case "ENUM":
-                if (enumAsString)
+                if (!enumAsObject)
                     return value.toString();
-                return value;
+                return  df.getEnumType().findValueByName(value.toString());
             case "MESSAGE":
                 return parse(df.getMessageType(), (AbstractMessage)value);
             default:
@@ -78,13 +78,11 @@ public class ProtoToMap {
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> parse(Descriptors.Descriptor descriptor, AbstractMessage proto) {
-        System.out.println("Parse: "+ proto.getClass().getName()+"\n\n");
         Map<String, Object> res = new HashMap<>();
         for(Descriptors.FieldDescriptor df : descriptor.getFields()){
             Object value = proto.getAllFields().get(df);
             if (value == null && !notSkipNull)
                 continue;
-
             if (df.isMapField()) {
                 if (value != null) {
                     Map map = new HashMap();
@@ -124,8 +122,8 @@ public class ProtoToMap {
                 case LIST_AS_ARRAY:
                     this.listAsArray = true;
                     break;
-                case ENUM_AS_STRING:
-                    this.enumAsString = true;
+                case ENUM_AS_OBJECT:
+                    this.enumAsObject = true;
                     break;
                 case IGNORE_NOT_IMPLEMENTED_TYPE:
                     this.ignoreNotImplementedType = true;
