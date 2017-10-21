@@ -1,6 +1,5 @@
 package ru.veryevilzed.tools.tests;
 
-import com.sun.corba.se.spi.ior.ObjectKey;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.veryevilzed.tools.proto.ProtoToMap;
