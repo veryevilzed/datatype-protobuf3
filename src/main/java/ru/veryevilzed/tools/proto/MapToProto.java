@@ -28,6 +28,9 @@ public class MapToProto {
 
     @SuppressWarnings("unchecked")
     private Object getProtobufValue(Descriptors.FieldDescriptor field, Object object) {
+        if (object == null)
+            return field.getDefaultValue();
+
         switch (field.getJavaType().name()){
             case "LONG":
                 if (object instanceof Integer)
