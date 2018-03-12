@@ -6,7 +6,7 @@
 
     <groupId>ru.veryevilzed.tools</groupId>
     <artifactId>datatype-protobuf3</artifactId>
-    <version>0.7</version>
+    <version>0.8</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -63,5 +63,17 @@
         </plugins>
     </build>
 
-
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>releases</name>
+            <url>http://nexus.30-30.ru/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>snapshots</name>
+            <url>http://nexus.30-30.ru/repository/maven-snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
